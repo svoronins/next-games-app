@@ -1,16 +1,19 @@
 "use client";
 import { useState } from "react";
-import { IGames } from "../types";
+import { useRouter } from "next/navigation";
+import { Game } from "../app/types";
 
-export function GameCard({ game }: { game: IGames }) {
+export function GameCard({ game }: { game: Game }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 ">
       <img
         src={game.thumbnail}
         alt={game.title}
-        className="w-full h-48 object-cover"
+        className="w-full h-48 object-cover cursor-pointer"
+        onClick={() => router.push(`/games/${game.id}`)}
       />
 
       <div className="p-4">
@@ -31,7 +34,7 @@ export function GameCard({ game }: { game: IGames }) {
       </div>
 
       <div className="px-4 pb-4 flex justify-between items-center">
-        <span className="text-sm text-blue-600 font-medium">{game.genre}</span>
+        {/* <span className="text-sm text-blue-600 font-medium">{game.genre}</span> */}
         <a
           href={game.game_url}
           target="_blank"
