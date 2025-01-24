@@ -30,3 +30,10 @@ const GameSchema = z.object({
   title: z.string(),
 });
 export type Game = z.infer<typeof GameSchema>;
+
+const UserSchema = z.object({
+  // id: z.optional(z.number()),
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+export type User = z.infer<typeof UserSchema>;
