@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "22.10.5",
     "@types/react": "19.0.6",
@@ -18,8 +19,8 @@
     "bcrypt": "^5.1.1",
     "eslint": "9.18.0",
     "eslint-config-next": "15.1.4",
-    "next": "15.1.4",
-    "next-auth": "^5.0.0-beta.25",
+    "next": "latest",
+    "next-auth": "beta",
     "postcss": "8.4.49",
     "react": "19.0.0",
     "react-dom": "19.0.0",

@@ -11,7 +11,6 @@ export default function AllGames({ games }: { games: Game[] }) {
   const searchParams = useSearchParams();
   const currentCategory = searchParams.get("category");
   const currentPlatform = searchParams.get("platform");
-  console.log(currentPlatform);
 
   return (
     <Suspense>

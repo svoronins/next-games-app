@@ -13,7 +13,6 @@ export default async function Profile({
   params: Promise<{ id: string }>;
 }) {
   const id = (await params).id;
-  console.log(id);
 
   if (!id) {
     redirect("/games");

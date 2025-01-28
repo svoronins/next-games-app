@@ -1,4 +1,3 @@
-import { title } from "process";
 import { z } from "zod";
 
 const MinRequirementSchem = z.object({
@@ -32,7 +31,7 @@ const GameSchema = z.object({
 export type Game = z.infer<typeof GameSchema>;
 
 const UserSchema = z.object({
-  // id: z.optional(z.number()),
+  id: z.number(),
   email: z.string().email(),
   password: z.string().min(6),
 });

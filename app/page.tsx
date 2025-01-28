@@ -1,11 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
+import { NavBar } from "../components/NavBar";
 
-export default function Home() {
+export default function Main({}) {
   return (
-    <main>
+    <>
       My next app
       <Link href={"/games"}>To the games</Link>
-    </main>
+    </>
   );
 }

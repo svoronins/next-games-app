@@ -2,25 +2,30 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
-import { sql } from "@vercel/postgres";
 import bcrypt from "bcrypt";
 
+import { createPool } from "@vercel/postgres";
 import { User } from "./app/types";
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
-    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-    const users = await sql<User>`SELECT * FROM users`;
-    console.log(users);
+    const sql = createPool({ connectionString: process.env.DATABASE_URL });
 
-    return user.rows[0];
+    const user = await sql.query("SELECT * FROM users WHERE email=$1", [email]);
+
+    return user.rows[0]; // Adjust based on the query response structure.
   } catch (error) {
     console.error("Failed to fetch user:", error);
     throw new Error("Failed to fetch user.");
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const {
+  auth,
+  signIn,
+  signOut,
+  handlers: { GET, POST },
+} = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -31,13 +36,18 @@ export const { auth, signIn, signOut } = NextAuth({
 
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
-          console.log(email, password);
 
           const user = await getUser(email);
+
           if (!user) return null;
+
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) {
-            return user;
+            return {
+              id: user.id.toString(),
+              email: user.email,
+              // password: user.password
+            };
           } else {
             console.log("Invalid credentials");
             return null;
@@ -47,4 +57,6 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+
+  secret: process.env.AUTH_SECRET,
 });
