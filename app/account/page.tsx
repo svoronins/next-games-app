@@ -6,7 +6,6 @@ export default async function AccountPage() {
     <p>
       Welcome, {session?.user?.firstname} {session?.user.lastname}
       <br />
-      Enviroment:{process.env.TEST_VAR}
     </p>
   );
 }
