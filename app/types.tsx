@@ -34,5 +34,7 @@ const UserSchema = z.object({
   id: z.number(),
   email: z.string().email(),
   password: z.string().min(6),
+  firstname: z.string(),
+  lastname: z.string(),
 });
 export type User = z.infer<typeof UserSchema>;

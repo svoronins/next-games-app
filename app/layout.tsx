@@ -12,19 +12,19 @@ export default async function RootLayout({
 }) {
   const session = await auth();
 
-  if (session && session.user) {
-    session.user = {
-      email: session.user.email,
-      id: session.user.id,
-    };
-  }
+  // if (session && session.user) {
+  //   session.user = {
+  //     email: session.user.email,
+  //     id: session.user.id,
+  //   };
+  // }
   console.log("Provider", session?.user);
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavBar session={session} />
-        <main>{children}</main>
+        <NavBar />
+        <main className="p-4 pt-16">{children}</main>
       </body>
     </html>
   );

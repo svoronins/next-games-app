@@ -1,23 +1,47 @@
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthConfig, Session } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import { User } from "./app/types";
+import { AdapterUser } from "next-auth/adapters";
+export type CustomUser = {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+};
+
+declare module "next-auth" {
+  interface Session {
+    user: CustomUser;
+  }
+
+  // interface User extends CustomUser {}
+
+  interface JWT extends CustomUser {}
+}
+
 export const authConfig = {
   pages: {
     signIn: "/auth/sign-in",
     signOut: "/auth/sign-out",
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user }) {
       if (user) {
+        const currentUser = user as unknown as User;
         // User is available during sign-in
         token.id = Number(user.id);
-      }
-      if (trigger === "update" && session) {
-        token = { ...token, user: session };
-        return token;
+        token.email = user.email;
+        token.firstname = currentUser.firstname;
+        token.lastname = currentUser.lastname;
       }
       return token;
     },
     async session({ session, token }) {
       session.user.id = token.id as string;
+      session.user.firstname = token.firstname as string;
+      session.user.lastname = token.lastname as string;
+      session.user.email = token.email as string;
+
       return session;
     },
 

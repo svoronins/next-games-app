@@ -14,7 +14,7 @@ export default function AllGames({ games }: { games: Game[] }) {
 
   return (
     <Suspense>
-      <div className="p-4 sm:ml-64">
+      <div className="sm:ml-64">
         <div className="container mx-auto p-4 py-8 my-8">
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
             {games

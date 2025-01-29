@@ -81,7 +81,7 @@ function FilterDropdown({
         {items.map((item) => (
           <li key={item.id}>
             <button
-              className={`flex items-center w-full p-2 rounded-lg pl-11 group dark:text-white ${
+              className={`flex text-left items-center w-full p-2 rounded-lg pl-11 group dark:text-white ${
                 currentFilter === item.id
                   ? "bg-blue-300"
                   : "hover:bg-gray-100 dark:hover:bg-gray-700"
