@@ -1,3 +1,3 @@
 export default function Main({}) {
-  return <>Enviroment:{process.env.TEST_VAR}</>;
+  return <>Enviroment:{process.env.VERCEL_ENV}</>;
 }
