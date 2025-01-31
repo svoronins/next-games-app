@@ -38,3 +38,8 @@ const UserSchema = z.object({
   lastname: z.string(),
 });
 export type User = z.infer<typeof UserSchema>;
+
+const CreateUserSchema = UserSchema.omit({
+  id: true,
+});
+export type CreateUser = z.infer<typeof CreateUserSchema>;

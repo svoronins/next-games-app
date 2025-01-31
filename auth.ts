@@ -3,29 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-
-import { createPool } from "@vercel/postgres";
-import { User } from "./app/types";
-import { neon } from "@neondatabase/serverless";
-
-async function getUser(email: string): Promise<User | undefined> {
-  try {
-    // const sql = createPool({ connectionString: process.env.DATABASE_URL });
-    const sql = neon(`${process.env.DATABASE_URL}`);
-    const user = await sql("SELECT * FROM users WHERE email=$1", [email]);
-
-    return {
-      id: user[0].id,
-      email: user[0].email,
-      firstname: user[0].firstname,
-      lastname: user[0].lastname,
-      password: user[0].password,
-    }; // Adjust based on the query response structure.
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    throw new Error("Failed to fetch user.");
-  }
-}
+import { getUser } from "./dbQuery";
 
 export const {
   auth,

@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { authenticate } from "@/app/lib/actions";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
@@ -13,10 +14,7 @@ export default function LoginForm() {
   );
 
   return (
-    <form
-      action={formAction}
-      className="space-y-6 w-11/12 sm:w-1/2 mx-auto" // Set width to 50% on medium and larger screens, 100% on smaller screens
-    >
+    <form action={formAction} className="space-y-6 w-11/12 sm:w-1/2 mx-auto">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
           Please log in to continue.
@@ -31,7 +29,7 @@ export default function LoginForm() {
               Email
             </label>
             <input
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 placeholder:text-gray-400"
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               id="email"
               type="email"
               name="email"
@@ -48,7 +46,7 @@ export default function LoginForm() {
               Password
             </label>
             <input
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 placeholder:text-gray-400"
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
               id="password"
               type="password"
               name="password"
@@ -76,16 +74,17 @@ export default function LoginForm() {
 
             <a
               href="#"
-              className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 hover:dark:text-blue-500"
+              className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
             >
               Forgot password?
             </a>
           </div>
 
           <input type="hidden" name="redirectTo" value={callbackUrl} />
+
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-blue-700 dark:hover:bg-blue-600"
+            className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled={isPending}
           >
             {isPending ? "Logging in..." : "Log in"}
@@ -96,6 +95,18 @@ export default function LoginForm() {
               <p>{errorMessage}</p>
             </div>
           )}
+
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Don't have an account?{" "}
+              <Link
+                href="/register"
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
+              >
+                Register here
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </form>
