@@ -56,30 +56,6 @@ export default function LoginForm() {
             />
           </div>
 
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex items-center">
-              <input
-                id="remember"
-                name="remember"
-                type="checkbox"
-                className="h-4 w-4 text-blue-500 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
-              />
-              <label
-                htmlFor="remember"
-                className="ml-2 text-sm text-gray-600 dark:text-gray-300"
-              >
-                Remember me
-              </label>
-            </div>
-
-            <a
-              href="#"
-              className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400"
-            >
-              Forgot password?
-            </a>
-          </div>
-
           <input type="hidden" name="redirectTo" value={callbackUrl} />
 
           <button

@@ -3,9 +3,6 @@
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { createUser } from "../../dbQuery";
-import { redirect } from "next/navigation";
-
-// ...
 
 export async function authenticate(
   prevState: string | undefined,
@@ -26,41 +23,45 @@ export async function authenticate(
   }
 }
 export async function registerUser(
-  prevState: string | undefined,
+  prevState: { id?: number; error: string | null },
   formData: FormData
 ) {
   try {
-    const firstname = formData.get("firstname") as string;
-    const lastname = formData.get("lastname") as string;
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirmPassword") as string;
+    const firstname = formData.get("firstname")?.toString().trim();
+    const lastname = formData.get("lastname")?.toString().trim();
+    const email = formData.get("email")?.toString().trim();
+    const password = formData.get("password")?.toString();
+    const confirmPassword = formData.get("confirmPassword")?.toString();
+
+    // Input validation
     if (!firstname || !lastname || !email || !password || !confirmPassword) {
-      return "All fields are required.";
+      return { error: "All fields are required." };
     }
     if (password.length < 6) {
-      return "Password must be at least 6 characters.";
+      return { error: "Password must be at least 6 characters." };
     }
     if (password !== confirmPassword) {
-      return "Passwords do not match.";
+      return { error: "Passwords do not match." };
     }
-    const isCreated = await createUser({
+
+    // Create the user
+
+    const newUser: { id: number } = await createUser({
       firstname,
       lastname,
       email,
       password,
     });
-    console.log("created:", isCreated);
 
-    if (isCreated) {
-      return "Your account has been successfully created";
-    } else {
-      return "Something went wrong";
+    if (!newUser || !newUser.id) {
+      return { error: "Failed to create user. Email may already be in use." };
     }
+
+    return { id: newUser.id, error: null }; // Returning user object with id
   } catch (error) {
-    if (error instanceof AuthError) {
-      return error.message;
+    if (error instanceof Error) {
+      return { error: error.message };
     }
-    return "An unexpected error occurred.";
+    return { error: "An unexpected error occurred." };
   }
 }

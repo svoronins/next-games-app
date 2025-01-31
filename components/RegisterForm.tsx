@@ -1,18 +1,24 @@
 "use client";
 
-import { useActionState } from "react";
-// import { registerUser } from "@/app/lib/actions";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { registerUser } from "../app/lib/actions";
 
+import { useRouter } from "next/navigation";
+
 export default function RegisterForm() {
-  const [errorMessage, formAction, isPending] = useActionState(
-    registerUser,
-    undefined
-  );
-  console.log(errorMessage);
+  const [state, action, isPending] = useActionState(registerUser, {
+    error: "",
+  });
+  const router = useRouter();
+  useEffect(() => {
+    if (state.id) {
+      router.push("/register?status=success"); // Redirect after success
+    }
+  }, [state]);
+
   return (
-    <form action={formAction} className="space-y-6 w-11/12 sm:w-1/2 mx-auto">
+    <form action={action} className="space-y-6 w-11/12 sm:w-1/2 mx-auto">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
           Create an Account
@@ -32,7 +38,6 @@ export default function RegisterForm() {
               type="text"
               name="firstname"
               placeholder="Enter your first name"
-              required
             />
           </div>
 
@@ -49,7 +54,6 @@ export default function RegisterForm() {
               type="text"
               name="lastname"
               placeholder="Enter your last name"
-              required
             />
           </div>
 
@@ -66,7 +70,6 @@ export default function RegisterForm() {
               type="email"
               name="email"
               placeholder="Enter your email address"
-              required
             />
           </div>
 
@@ -83,7 +86,6 @@ export default function RegisterForm() {
               type="password"
               name="password"
               placeholder="Create a password"
-              required
               minLength={6}
             />
           </div>
@@ -101,7 +103,6 @@ export default function RegisterForm() {
               type="password"
               name="confirmPassword"
               placeholder="Re-enter your password"
-              required
               minLength={6}
             />
           </div>
@@ -113,16 +114,16 @@ export default function RegisterForm() {
           >
             {isPending ? "Registering..." : "Register"}
           </button>
-          {errorMessage && (
+          {state.error && (
             <div className="mt-4 text-center text-sm text-red-500">
-              <p>{errorMessage}</p>
+              <p>{state.error}</p>
             </div>
           )}
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Already have an account?{" "}
               <Link
-                href="/auth/sign-in"
+                href="/login"
                 className="text-blue-600 hover:text-blue-800 dark:text-blue-400"
               >
                 Log in here

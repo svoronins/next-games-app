@@ -1,7 +1,7 @@
 "use client";
 import { Session } from "next-auth";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SignOutButton } from "./SignOutButton";
 import { Modal } from "./Modal";
@@ -13,6 +13,7 @@ export function AccountDropDown({ session }: { session: Session }) {
   const pathName = usePathname();
   const userName = session.user?.firstname || "Account";
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   useEffect(() => {
     setShowAccountMenu(false);
   }, [pathName]);
@@ -85,7 +86,7 @@ export function AccountDropDown({ session }: { session: Session }) {
         confirmButtonLabel={"Log out"}
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
-        onConfirm={() => signOut()}
+        onConfirm={() => router.push("/logout")}
         header="Are you sure you want to log out?"
         description="After signing out you will be redirected to start page"
       />
