@@ -10,7 +10,7 @@ export default function Logout() {
     signOut().then(() => {
       router.push("/login"); // Redirect after logout
     });
-  }, []);
+  }, [router]);
 
   return <p>Logging out...</p>; // Temporary message before redirecting
 }
